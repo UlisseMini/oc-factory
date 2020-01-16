@@ -117,8 +117,7 @@ function t.moveTo(xT, yT, zT, oriT)
 xT = %q (want number)
 yT = %q (want number)
 zT = %q (want number)
-oriT = %q (want number or string)
-]]):format(xT, yT, zT, oriT))
+]]):format(xT, yT, zT))
   end
 
   while yT < c.y do moveWith(robot.swingDown, t.down) end
