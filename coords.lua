@@ -78,16 +78,13 @@ function t.look(direction)
 	end
 
   -- Now we turn to the correct orientation
-	if direction == c.ori then return end
-
-	if (direction - c.ori) % 2 == 0 then
-		t.turnLeft()
-		t.turnLeft()
-	elseif (direction - c.ori) % 4 == 1 then
-		t.turnRight()
-	else
-		t.turnLeft()
-	end
+  if c.ori == (direction + 1) % 4 then
+    t.turnRight()
+  else
+    while c.ori ~= direction do
+      t.turnLeft()
+    end
+  end
 end
 
 --- Helper for t.moveTo,
