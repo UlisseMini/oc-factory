@@ -110,10 +110,6 @@ end
 -- @tparam number zT Target Z coordanite
 -- @tparam number,string oriT orientation target [optional].
 function t.moveTo(xT, yT, zT, oriT)
-  if not oriT then
-    oriT = c.ori
-  end
-
   -- check for nil arguments
   if (not xT or not yT or not zT) then
     error(
@@ -125,21 +121,13 @@ oriT = %q (want number or string)
 ]]):format(xT, yT, zT, oriT))
   end
 
-
-  while yT < c.y do
-    moveWith(robot.swingDown, t.down)
-  end
-
-  while yT > c.y do
-    moveWith(robot.swingUp, t.up)
-  end
+  while yT < c.y do moveWith(robot.swingDown, t.down) end
+  while yT > c.y do moveWith(robot.swingUp, t.up) end
 
   if xT < c.x then
     t.look('west')
     while xT < c.x do moveForward() end
-  end
-
-  if xT > c.x then
+  elseif xT > c.x then
     t.look('east')
     while xT > c.x do moveForward() end
   end
@@ -147,14 +135,12 @@ oriT = %q (want number or string)
   if zT < c.z then
     t.look('north')
     while zT < c.z do moveForward() end
-  end
-
-  if zT > c.z then
+  elseif zT > c.z then
     t.look('south')
     while zT > c.z do moveForward() end
   end
 
-  t.look(oriT)
+  if oriT then t.look(oriT) end
 end
 
 return t
