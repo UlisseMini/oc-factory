@@ -17,6 +17,7 @@ local c = {
   z = 0,   -- Current Z
   ori = 0, -- Current orientation, 0-3
 }
+t.c = c
 
 -- The delta for different orientations.
 local delta = {
@@ -78,7 +79,7 @@ function t.look(direction)
   end
 
   -- Now we turn to the correct orientation
-  if c.ori == (direction + 1) % 4 then
+  if c.ori == (direction - 1) % 4 then
     t.turnRight()
   else
     while c.ori ~= direction do
@@ -124,6 +125,7 @@ oriT = %q (want number or string)
 ]]):format(xT, yT, zT, oriT))
   end
 
+
   while yT < c.y do
     moveWith(robot.swingDown, t.down)
   end
@@ -155,4 +157,4 @@ oriT = %q (want number or string)
   t.look(oriT)
 end
 
-return t, c
+return t
