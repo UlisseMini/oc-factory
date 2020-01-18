@@ -107,42 +107,39 @@ local function moveForward()
 end
 
 --- Move to a set of coordanites.
--- @tparam number xT Target X coordanite
--- @tparam number yT Target Y coordanite
--- @tparam number zT Target Z coordanite
--- @tparam number,string oriT orientation target [optional].
-function t.moveTo(xT, yT, zT, oriT)
+-- @tparam w table must contain x, y, z and optionally ori
+function t.moveTo(w)
   -- check for nil arguments
-  if (not xT or not yT or not zT) then
+  if (not w.x or not w.y or not w.z) then
     error(
       ([[t.moveTo Invalid arguments
-xT = %q (want number)
-yT = %q (want number)
-zT = %q (want number)
-]]):format(xT, yT, zT))
+w.x = %q (want number)
+w.y = %q (want number)
+w.z = %q (want number)
+]]):format(w.x, w.y, w.z))
   end
-  oriT = oriT or t.ori
+  w.ori = w.ori or t.ori
 
-  while yT < c.y do moveWith(robot.swingDown, t.down) end
-  while yT > c.y do moveWith(robot.swingUp, t.up) end
+  while w.y < c.y do moveWith(robot.swingDown, t.down) end
+  while w.y > c.y do moveWith(robot.swingUp, t.up) end
 
-  if xT < c.x then
+  if w.x < c.x then
     t.look('west')
-    while xT < c.x do moveForward() end
-  elseif xT > c.x then
+    while w.x < c.x do moveForward() end
+  elseif w.x > c.x then
     t.look('east')
-    while xT > c.x do moveForward() end
+    while w.x > c.x do moveForward() end
   end
 
-  if zT < c.z then
+  if w.z < c.z then
     t.look('north')
-    while zT < c.z do moveForward() end
-  elseif zT > c.z then
+    while w.z < c.z do moveForward() end
+  elseif w.z > c.z then
     t.look('south')
-    while zT > c.z do moveForward() end
+    while w.z > c.z do moveForward() end
   end
 
-  t.look(oriT)
+  t.look(w.ori)
 end
 
 return t
