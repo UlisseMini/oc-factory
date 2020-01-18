@@ -96,8 +96,8 @@ function t.dump()
 end
 
 --- Helper for t.moveTo
-local function moveWith(move, swing)
-  while not move() do swing() end
+local function moveWith(mv, swing)
+  while not mv() do swing() end
 end
 
 --- Helper for t.moveTo. is the same as
