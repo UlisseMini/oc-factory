@@ -35,7 +35,7 @@ function factory:register(task, name, options)
 
   -- NOTE: Timer cannot be canceled once started.
   -- NOTE: We cannot send functions over event.push, thats why we have self.tasks
-  event.timer(options.interval, function() event.push('task', name) end, math.huge)
+  event.timer(options.interval, function() event.push('task', name, options) end, math.huge)
 end
 
 local function readInt(msg)
@@ -78,6 +78,22 @@ function factory:init()
   self.charger = t.dump()
 end
 
+function factory:run_task(name, options)
+  self:moveTo({x = t.c.x, y = options.level, z = t.c.z, ori = options.ori})
+
+  local energy_before = computer.energy()
+  self.tasks[name](t)
+  local energy_after = computer.energy()
+
+  local used_percent = ((energy_before - energy_after) / computer.maxEnergy()) * 100
+  printf('Task %s completed used %d%% percent of our energy', name, used_percent)
+  assert(t.c.x == 0 and t.c.z == 0,
+    ('x(%d) and z(%d) must be equal to zero after task finishes'):format(t.c.x, t.c.z))
+  if used_percent > 20 then
+    error('Used more then 20% of our energy, we could have run out')
+  end
+end
+
 function factory:run()
   while true do
     -- Check fuel, if we have less then 20% remaining refuel
@@ -85,20 +101,9 @@ function factory:run()
       self:refuel()
     end
 
-    local _, name = event.pull('task')
+    local _, name, options = event.pull('task')
     print('Running task ' .. name)
-
-    local energy_before = computer.energy()
-    self.tasks[name](t)
-    local energy_after = computer.energy()
-
-    local used_percent = ((energy_before - energy_after) / computer.maxEnergy()) * 100
-    printf('Task %s completed used %d%% percent of our energy', name, used_percent)
-    assert(t.c.x == 0 and t.c.z == 0,
-      ('x(%d) and z(%d) must be equal to zero after task finishes'):format(t.c.x, t.c.z))
-    if used_percent > 20 then
-      error('Used more then 20% of our energy, we could have run out')
-    end
+    self:run_task(name, options)
   end
 end
 
