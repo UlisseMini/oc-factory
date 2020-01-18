@@ -60,7 +60,7 @@ t.down    = move(robot.down, function() c.y = c.y - 1 end)
 
 --- Needed for converting the orientation back and forth to strings.
 -- if a key does not exist an error is thrown.
-local oris = {
+t.oris = {
   ["north"] = 0,
   ["east"]  = 1,
   ["south"] = 2,
@@ -70,14 +70,14 @@ local oris = {
 --- Look a direction,
 -- @param direction can be a string or number
 -- if it is a string then it will be converted to a number based
--- on the oris table.
+-- on the t.oris table.
 function t.look(direction)
   if type(direction) == "string" then
-    if oris[direction] == nil then
+    if t.oris[direction] == nil then
       error(direction .. ' is not in the orientations table')
     end
 
-    direction = oris[direction]
+    direction = t.oris[direction]
   end
 
   -- Now we turn to the correct orientation
