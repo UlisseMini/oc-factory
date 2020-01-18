@@ -51,6 +51,7 @@ function factory:moveTo(w)
 end
 
 function factory:refuel()
+  print('Moving to charging station...')
   self:moveTo(self.charger)
   -- Not doing energy == maxEnergy because we might consume right after charg and waste time
   repeat os.sleep(10) until (computer.energy() / computer.maxEnergy()) > 0.99
