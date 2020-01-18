@@ -100,15 +100,14 @@ end
 -- return value is falsy.
 -- @tparam function move   to call second.
 -- it's return value is falsy.
-local function moveWith(swing, move)
-  swing()
-  move()
+local function moveWith(move, swing)
+  while not move() do swing() end
 end
 
 --- Helper for t.moveTo. is the same as
 -- moveWith(t.forward, robot.swing)
 local function moveForward()
-  moveWith(t.forward, robot.swing)
+  moveWith(t.forward, t.swing)
 end
 
 --- Move to a set of coordanites.
@@ -125,8 +124,8 @@ w.z = %q (want number)
   end
   w.ori = w.ori or t.ori
 
-  while w.y < c.y do moveWith(robot.swingDown, t.down) end
-  while w.y > c.y do moveWith(robot.swingUp, t.up) end
+  while w.y < c.y do moveWith(t.down, robot.swingDown) end
+  while w.y > c.y do moveWith(t.up,   robot.swingUp) end
 
   if w.x < c.x then
     t.look('west')
