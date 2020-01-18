@@ -4,11 +4,13 @@
 -- @author Ulisse Mini
 -- @license MIT
 
+
 -- Imports
 local robot = require('robot')
 
 --- The entire API lives in here.
 local t = {}
+setmetatable(t, { __index = robot })
 
 --- Our current coordanites.
 local c = {
@@ -119,6 +121,7 @@ yT = %q (want number)
 zT = %q (want number)
 ]]):format(xT, yT, zT))
   end
+  oriT = oriT or t.ori
 
   while yT < c.y do moveWith(robot.swingDown, t.down) end
   while yT > c.y do moveWith(robot.swingUp, t.up) end
@@ -139,7 +142,7 @@ zT = %q (want number)
     while zT > c.z do moveForward() end
   end
 
-  if oriT then t.look(oriT) end
+  t.look(oriT)
 end
 
 return t
