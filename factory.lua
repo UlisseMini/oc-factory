@@ -103,7 +103,7 @@ function factory:run()
 end
 
 for mod_name in filesystem.list('/home/modules') do
-  local task, options = dofile('/home/modules' .. mod_name)
+  local task, options = dofile('/home/modules/' .. mod_name)
 
   -- Remove extension from filename
   local name = mod_name:gsub('%..*$', '')
