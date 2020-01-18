@@ -90,6 +90,11 @@ function t.look(direction)
   end
 end
 
+--- return a copy of current coordanites.
+function t.dump()
+  return { x = c.x, y = c.y, z = c.z, ori = c.ori }
+end
+
 --- Helper for t.moveTo,
 -- @tparam function swing  to be called until it's
 -- return value is falsy.
