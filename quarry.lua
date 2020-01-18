@@ -87,7 +87,7 @@ local quarry_layer = function(length, width)
     r.turnLeft()
   end
 
-  if computer.energy() < 200 then
+  if (computer.energy() / computer.maxEnergy()) < 0.5 then
     lowEnergy()
   end
 end
@@ -102,7 +102,7 @@ local quarry = function(length, width)
       while r.detectDown() and r.swingDown() do end
       if not r.down() then
         print('Bedrock!')
-        break
+        return
       end
       depth = depth + 1
     end
