@@ -64,7 +64,12 @@ describe('t.moveTo', function()
   end)
 
   it('should move to its destination when neeeded', function()
-    t.moveTo({x = 3, y = 4, z = -3, ori = 1}, t.c)
+    t.moveTo({x = 3, y = 4, z = -3, ori = 1})
+    assert_eq({x = 3, y = 4, z = -3, ori = 1}, t.c)
+  end)
+
+  it('should work with positional args too', function()
+    t.moveTo({3, 4, -3, 1})
     assert_eq({x = 3, y = 4, z = -3, ori = 1}, t.c)
   end)
 end)

@@ -109,8 +109,10 @@ end
 --- Move to a set of coordanites.
 -- @tparam w table must contain x, y, z and optionally ori
 function t.moveTo(w)
+  local x, y, z, ori = w.x or w[1], w.y or w[2], w.z or w[3], w.ori or w[4]
+
   -- check for nil arguments
-  if (not w.x or not w.y or not w.z) then
+  if (not x or not y or not z) then
     error(
       ([[t.moveTo Invalid arguments
 w.x = %q (want number)
@@ -118,28 +120,28 @@ w.y = %q (want number)
 w.z = %q (want number)
 ]]):format(w.x, w.y, w.z))
   end
-  w.ori = w.ori or t.ori
+  ori = ori or t.ori
 
-  while w.y < c.y do moveWith(t.down, robot.swingDown) end
-  while w.y > c.y do moveWith(t.up,   robot.swingUp) end
+  while y < c.y do moveWith(t.down, robot.swingDown) end
+  while y > c.y do moveWith(t.up,   robot.swingUp) end
 
-  if w.x < c.x then
+  if x < c.x then
     t.look('west')
-    while w.x < c.x do moveForward() end
-  elseif w.x > c.x then
+    while x < c.x do moveForward() end
+  elseif x > c.x then
     t.look('east')
-    while w.x > c.x do moveForward() end
+    while x > c.x do moveForward() end
   end
 
-  if w.z < c.z then
+  if z < c.z then
     t.look('north')
-    while w.z < c.z do moveForward() end
-  elseif w.z > c.z then
+    while z < c.z do moveForward() end
+  elseif z > c.z then
     t.look('south')
-    while w.z > c.z do moveForward() end
+    while z > c.z do moveForward() end
   end
 
-  t.look(w.ori)
+  t.look(ori)
 end
 
 return t
