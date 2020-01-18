@@ -67,8 +67,9 @@ function factory:init()
   assert(t.oris[ori], 'orientation must be one of (north, east, south, west)')
   t.ori = t.oris[ori]
 
-  print('Are you absolutly sure you put in the correct coordanites?')
-  print('Are you absolutly sure you placed the robot over next to the charger and over the shaft?')
+  print('Are you sure you put in the correct coordanites?')
+  print('Are you sure you placed the robot over next to the charger and over the shaft?')
+  print('Are you sure you the robot has sufficent hover upgrade to move up/down?')
   io.write('(y/n) ')
   local s = io.read()
   if s ~= 'yes' and s ~= 'y' then
