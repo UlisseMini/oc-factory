@@ -6,4 +6,4 @@ local get = function(...)
   end
 end
 
-get({'coords.lua', 'factory.lua', 'modules/test.lua', 'quarry.lua'})
+get('coords.lua', 'factory.lua', 'modules/test.lua', 'quarry.lua')
