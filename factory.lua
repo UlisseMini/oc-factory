@@ -44,9 +44,9 @@ local function readInt(msg)
   return assert(tonumber(s), 'Invalid number "' .. s .. '"')
 end
 
--- same as t.moveTo but errors if t.x ~= 0 or t.z ~= 0 (aka if not in shaft)
+-- same as t.moveTo but errors if x ~= 0 or z ~= 0 (aka if not in shaft)
 function factory:moveTo(w)
-  assert(t.x == 0 and t.z == 0, 't.x and t.z must be equal to zero')
+  assert(t.c.x == 0 and t.c.z == 0, 't.x and t.z must be equal to zero')
   t.moveTo(w)
 end
 
@@ -94,15 +94,16 @@ function factory:run()
 
     local used_percent = ((energy_before - energy_after) / computer.maxEnergy()) * 100
     printf('Task %s completed used %d%% percent of our energy', name, used_percent)
-    assert(t.x == 0 and t.z == 0, 't.x and t.z must be equal to zero after task finishes')
+    assert(t.c.x == 0 and t.c.z == 0,
+      ('x(%d) and z(%d) must be equal to zero after task finishes'):format(t.c.x, t.c.z))
     if used_percent > 20 then
       error('Used more then 20% of our energy, we could have run out')
     end
   end
 end
 
-for mod_name in filesystem.list('modules') do
-  local task, options = dofile(mod)
+for mod_name in filesystem.list('/home/modules') do
+  local task, options = dofile('/home/modules' .. mod_name)
 
   -- Remove extension from filename
   local name = mod_name:gsub('%..*$', '')
