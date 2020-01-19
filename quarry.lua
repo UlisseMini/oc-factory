@@ -32,9 +32,10 @@ local lowEnergy = function()
     if component.generator.count() > 0 then return end
   end
 
-  -- must not have charged! return to the surface.
-  print("Low energy, returning to surface.")
-  surface(1)
+  if (computer.energy() / computer.maxEnergy()) < 0.2 then
+    print("Low energy, returning to surface.")
+    surface(1)
+  end
 end
 
 -- go forward n times, breaking anything above below and infront of him
@@ -101,15 +102,12 @@ local quarry = function(length, width)
     for i=1,3 do
       while r.detectDown() and r.swingDown() do end
       if not r.down() then
-        print('Bedrock!')
+        print('Hit bedrock, Returning to surface')
         return
       end
       depth = depth + 1
     end
   end
-
-  -- Go back to the surface
-  surface(0)
 end
 
 local args = {...}
@@ -122,3 +120,6 @@ local length = assert(tonumber(args[1]), 'length must be a number')
 local width  = assert(tonumber(args[2]), 'width must be a number')
 
 quarry(length, width)
+
+-- Go back to the surface
+surface(0)
